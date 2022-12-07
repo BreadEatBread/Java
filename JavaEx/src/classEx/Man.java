@@ -6,6 +6,25 @@ public class Man {
 	boolean married;
 	int child;
 
+	public Man() {
+	};
+
+	public Man(int age) {
+		this.age = age;
+	}
+
+	public Man(int age, String name) {
+		this.age = age;
+		this.name = name;
+	}
+
+	public void setAge(int age, String name, boolean married, int child) {
+		this.age = age;
+		this.name = name;
+		this.married = married;
+		this.child = child;
+	}
+
 	public int getAge() {
 		return age;
 	}
