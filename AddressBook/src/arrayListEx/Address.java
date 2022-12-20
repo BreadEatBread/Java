@@ -3,11 +3,21 @@ package arrayListEx;
 public class Address {
 	private String name;
 	private String phone;
+//	private String email;
 
 	Address(String name, String phone) {
 		this.name = name;
 		this.phone = phone;
+//		this.email = email;
 	}
+
+//	public String getEmail() {
+//		return email;
+//	}
+//
+//	public void setEmail(String email) {
+//		this.email = email;
+//	}
 
 	public String getName() {
 		return name;

@@ -14,16 +14,16 @@ public class AddressBookEx {
 			String code = sc.next();
 			switch (code) {
 			case "1":
-				input(sc,addressBook);
+				input(sc, addressBook);
 				break;
 			case "2":
-				searchAll();
+				searchAll(addressBook);
 				break;
 			case "3":
-				searchName();
+				searchName(sc, addressBook);
 				break;
 			case "4":
-				delete();
+				delete(sc, addressBook);
 				break;
 			case "x":
 				break;
@@ -38,19 +38,66 @@ public class AddressBookEx {
 		}
 	}
 
-	private static void delete() {
+	private static void delete(Scanner sc, ArrayList<Address> addressBook) {
 		System.out.println("*** 주소 삭제 처리 ***");
-
+		if (addressBook.size() <= 0) {
+			System.out.println("등록된 연락처가 없습니다.");
+		} else {
+			System.out.println("이름 입력: ");
+			String name = sc.next();
+			int cnt = 0;
+			System.out.println("** 등록 번호 내역 **");
+			for (int i = 0; i < addressBook.size(); i++) {
+				if (name.equals(addressBook.get(i).getName())) {
+					cnt++;
+					System.out.println(i + ") " + name + " :" + addressBook.get(i).getPhone());
+				}
+			}
+			if (cnt == 0)
+				System.out.println("입력하신 " + name + " 은(는) 등록되지 않았습니다.");
+			else {
+				System.out.println("삭제할 목록번호 #) 입력: ");
+				String num = sc.next();
+				System.out.println("정말 삭제하시겠습니까?(y/n)");
+				String check = sc.next();
+				if (check.equals("y")) {
+					addressBook.remove(Integer.parseInt(num));
+					System.out.println("삭제 되었습니다...");
+				} else
+					System.out.println("취소 되었습니다...");
+			}
+		}
 	}
 
-	private static void searchName() {
+	private static void searchName(Scanner sc, ArrayList<Address> addressBook) {
 		System.out.println("*** 이름으로 주소 조회 ***");
-
+		if (addressBook.size() <= 0) {
+			System.out.println("등록된 연락처가 없습니다.");
+		} else {
+			System.out.println("이름 입력: ");
+			String name = sc.next();
+			int cnt = 0;
+			for (int i = 0; i < addressBook.size(); i++) {
+				if (name.equals(addressBook.get(i).getName())) {
+					System.out.println((i + 1) + ") " + name + " : " + addressBook.get(i).getPhone());
+					cnt++;
+				}
+			}
+			if (cnt == 0)
+				System.out.println("입력하신 " + name + " 은(는) 등록되지 않았습니다.");
+		}
 	}
 
-	private static void searchAll() {
+	private static void searchAll(ArrayList<Address> addressBook) {
 		System.out.println("*** 전체 주소 조회 ***");
-
+		if (addressBook.size() <= 0) {
+			System.out.println("등록된 연락처가 없습니다.");
+		}
+		for (int i = 0; i < addressBook.size(); i++) {
+			String a_name = addressBook.get(i).getName();
+			String a_phone = addressBook.get(i).getPhone();
+			System.out.println((i + 1) + ") " + a_name + " " + a_phone);
+		}
 	}
 
 	private static void input(Scanner sc, ArrayList<Address> addressBook) {
