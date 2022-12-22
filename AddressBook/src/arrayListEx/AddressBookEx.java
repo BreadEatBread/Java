@@ -1,13 +1,18 @@
 package arrayListEx;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 import externalEx.ProgramInfo;
 
 public class AddressBookEx {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		ProgramInfo.print("주소록 프로그램", "김정웅", 1.0);
 		ArrayList<Address> addressBook = new ArrayList<Address>();
+		addressBook = readfile();
 		while (true) {
 			Scanner sc = new Scanner(System.in);
 			System.out.println("1:등록 2:조회 3:건별조회 4:삭제 x:종료 ==> ");
@@ -31,11 +36,26 @@ public class AddressBookEx {
 				System.out.println("입력 구분을 잘못 입력하셨습니다!!!");
 			}
 			if (code.equals("x")) {
+				writefile(addressBook);
 				System.out.println("*** 프로그램을 이용해 주셔서 감사합니다. ***");
 				ProgramInfo.print("주소록 프로그램", "김정웅", 1.0);
 				break;
 			}
 		}
+	}
+
+	private static void writefile(ArrayList<Address> addressBook) throws Exception {
+		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("c:/filetest/newdata1.txt"));
+		oos.writeObject(addressBook);
+		oos.close();
+	}
+
+	private static ArrayList<Address> readfile() throws Exception {
+		ObjectInputStream ois = new ObjectInputStream(new FileInputStream("c:/filetest/newdata1.txt"));
+		ArrayList<Address> read_data = null;
+		read_data = (ArrayList<Address>) ois.readObject();
+		ois.close();
+		return read_data;
 	}
 
 	private static void delete(Scanner sc, ArrayList<Address> addressBook) {
@@ -50,7 +70,7 @@ public class AddressBookEx {
 			for (int i = 0; i < addressBook.size(); i++) {
 				if (name.equals(addressBook.get(i).getName())) {
 					cnt++;
-					System.out.println(i + ") " + name + " :" + addressBook.get(i).getPhone());
+					System.out.println(i + ") " + name + " :" + addressBook.get(i).getPhone() + " " + addressBook.get(i).getEmail());
 				}
 			}
 			if (cnt == 0)
@@ -79,7 +99,7 @@ public class AddressBookEx {
 			int cnt = 0;
 			for (int i = 0; i < addressBook.size(); i++) {
 				if (name.equals(addressBook.get(i).getName())) {
-					System.out.println((i + 1) + ") " + name + " : " + addressBook.get(i).getPhone());
+					System.out.println((i + 1) + ") " + name + " : " + addressBook.get(i).getPhone() + " " + addressBook.get(i).getEmail());
 					cnt++;
 				}
 			}
@@ -96,7 +116,8 @@ public class AddressBookEx {
 		for (int i = 0; i < addressBook.size(); i++) {
 			String a_name = addressBook.get(i).getName();
 			String a_phone = addressBook.get(i).getPhone();
-			System.out.println((i + 1) + ") " + a_name + " " + a_phone);
+			String a_email = addressBook.get(i).getEmail();
+			System.out.println((i + 1) + ") " + a_name + " " + a_phone + " " + a_email);
 		}
 	}
 
@@ -106,11 +127,14 @@ public class AddressBookEx {
 		String name = sc.next();
 		System.out.println("전화번호 입력: ");
 		String phone = sc.next();
-		addressBook.add(new Address(name, phone));
+		System.out.println("이메일 입력: ");
+		String email = sc.next();
+		addressBook.add(new Address(name, phone, email));
 		int size = addressBook.size() - 1;
 		String a_name = addressBook.get(size).getName();
 		String a_phone = addressBook.get(size).getPhone();
-		System.out.println("등록 완료 ==> " + a_name + " " + a_phone);
+		String a_email = addressBook.get(size).getEmail();
+		System.out.println("등록 완료 ==> " + a_name + " " + a_phone + " " + a_email);
 	}
 
 }
